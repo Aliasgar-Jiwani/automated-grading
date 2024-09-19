@@ -1,0 +1,38 @@
+{
+    "c": {
+        "Write a C program to reverse a Ali.": "gnirts a esrever ot margorp C a etirW",
+        "Write a C program to find the largest number in an array.": "Largest number is: 10",
+        "Write a C program to check if a number is prime.": "Number is prime",
+        "Write a C program to sort an array using bubble sort.": "Sorted array: 1 2 3 4 5",
+        "Write a C program to calculate the factorial of a number.": "Factorial is: 120",
+        "Write a C program to swap two numbers without using a temporary variable.": "Swapped numbers: 5 10",
+        "Write a C program to find the GCD of two numbers.": "GCD is: 6",
+        "Write a C program to check if a number is even or odd.": "Number is even",
+        "Write a C program to find the sum of digits of a number.": "Sum of digits is: 15",
+        "Write a C program to print the Fibonacci sequence up to n terms.": "Fibonacci sequence: 0 1 1 2 3 5 8"
+    },
+    "python": {
+        "Write a Python function to check if a string is a palindrome.": "String is a palindrome",
+        "Write a Python function to find the factorial of a number.": "Factorial is: 120",
+        "Write a Python function to reverse a string.": "Reversed string: 'gnirts'",
+        "Write a Python program to check if a number is prime.": "Number is prime",
+        "Write a Python function to find the largest number in a list.": "Largest number is: 10",
+        "Write a Python program to sort a list using bubble sort.": "Sorted list: [1, 2, 3, 4, 5]",
+        "Write a Python function to check if a number is even or odd.": "Number is even",
+        "Write a Python function to calculate the sum of digits of a number.": "Sum of digits is: 15",
+        "Write a Python program to print the Fibonacci sequence up to n terms.": "Fibonacci sequence: [0, 1, 1, 2, 3, 5, 8]",
+        "Write a Python function to find the GCD of two numbers.": "GCD is: 6"
+    },
+    "java": {
+        "Write a Java method to calculate the factorial of a number.": "Factorial is: 120",
+        "Write a Java method to check if a number is prime.": "Number is prime",
+        "Write a Java method to reverse a string.": "Reversed string: 'gnirts'",
+        "Write a Java program to sort an array using bubble sort.": "Sorted array: [1, 2, 3, 4, 5]",
+        "Write a Java method to find the largest number in an array.": "Largest number is: 10",
+        "Write a Java method to check if a string is a palindrome.": "String is a palindrome",
+        "Write a Java program to find the GCD of two numbers.": "GCD is: 6",
+        "Write a Java program to print the Fibonacci sequence up to n terms.": "Fibonacci sequence: 0 1 1 2 3 5 8",
+        "Write a Java method to check if a number is even or odd.": "Number is even",
+        "Write a Java method to swap two numbers without using a temporary variable.": "Swapped numbers: 5 10"
+    }
+}

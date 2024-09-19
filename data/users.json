@@ -1,0 +1,58 @@
+[
+  {
+    "name": "Ali",
+    "branch": "MCA",
+    "password": "1234",
+    "year": "2",
+    "college": "RBU"
+  },
+  {
+    "name": "Nikita",
+    "branch": "MCA",
+    "password": "1234",
+    "year": "2",
+    "college": "RBU"
+  },
+  {
+    "name": "Nikita",
+    "branch": "mca",
+    "password": "12345",
+    "year": "2",
+    "college": "rbu"
+  },
+  {
+    "name": "",
+    "branch": "",
+    "password": "",
+    "year": "",
+    "college": ""
+  },
+  {
+    "name": "",
+    "branch": "",
+    "password": "",
+    "year": "",
+    "college": ""
+  },
+  {
+    "name": "Titiksha",
+    "branch": "Ai",
+    "password": "Ai1234",
+    "year": "3",
+    "college": "raisoni"
+  },
+  {
+    "name": "",
+    "branch": "",
+    "password": "",
+    "year": "",
+    "college": ""
+  },
+  {
+    "name": "",
+    "branch": "",
+    "password": "",
+    "year": "",
+    "college": ""
+  }
+]

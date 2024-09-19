@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= language.charAt(0).toUpperCase() + language.slice(1) %> Questions</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <h1><%= language.charAt(0).toUpperCase() + language.slice(1) %> Questions</h1>
+    <div class="questions-list">
+        <% questions.forEach(function(question, index) { %>
+            <div class="question">
+                <h3>Question <%= index + 1 %></h3>
+                <p><%= question %></p>
+            </div>
+        <% }) %>
+    </div>
+</body>
+</html>

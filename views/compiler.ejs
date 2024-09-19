@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Compiler</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #1e1e1e; /* Darker background color */
+            color: #f0f0f0; /* Light text color */
+        }
+
+        .container {
+            width: 80%;
+            max-width: 800px;
+            background-color: #2c2c2c; /* Slightly lighter dark background for the container */
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #e0e0e0; /* Light color for heading */
+        }
+
+        .problem {
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            color: #cfcfcf; /* Slightly lighter color for problem text */
+        }
+
+        .note {
+            margin-bottom: 20px;
+            font-size: 1rem;
+            color: #ffa07a; /* Light coral color for the note */
+        }
+
+        .editor {
+            margin-bottom: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 300px;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #444; /* Darker border color */
+            border-radius: 5px;
+            background-color: #1e1e1e; /* Dark background for textarea */
+            color: #f0f0f0; /* Light text color */
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+            resize: vertical;
+        }
+
+        /* Custom button style with star animations */
+        .button {
+            position: relative;
+            padding: 12px 35px;
+            background: #fec195;
+            font-size: 17px;
+            font-weight: 500;
+            color: #181818;
+            border: 3px solid #fec195;
+            border-radius: 8px;
+            box-shadow: 0 0 0 #fec1958c;
+            transition: all 0.3s ease-in-out;
+            cursor: pointer;
+            overflow: hidden; /* Ensure stars don't overflow outside the button */
+        }
+
+        .star-1, .star-2, .star-3, .star-4, .star-5, .star-6 {
+            position: absolute;
+            filter: drop-shadow(0 0 0 #fffdef);
+            z-index: -5;
+        }
+
+        .star-1 {
+            top: 20%;
+            left: 20%;
+            width: 25px;
+            height: auto;
+            transition: all 1s cubic-bezier(0.05, 0.83, 0.43, 0.96);
+        }
+
+        .star-2 {
+            top: 45%;
+            left: 45%;
+            width: 15px;
+            height: auto;
+            transition: all 1s cubic-bezier(0, 0.4, 0, 1.01);
+        }
+
+        .star-3 {
+            top: 40%;
+            left: 40%;
+            width: 5px;
+            height: auto;
+            transition: all 1s cubic-bezier(0, 0.4, 0, 1.01);
+        }
+
+        .star-4 {
+            top: 20%;
+            left: 40%;
+            width: 8px;
+            height: auto;
+            transition: all 0.8s cubic-bezier(0, 0.4, 0, 1.01);
+        }
+
+        .star-5 {
+            top: 25%;
+            left: 45%;
+            width: 15px;
+            height: auto;
+            transition: all 0.6s cubic-bezier(0, 0.4, 0, 1.01);
+        }
+
+        .star-6 {
+            top: 5%;
+            left: 50%;
+            width: 5px;
+            height: auto;
+            transition: all 0.8s ease;
+        }
+
+        .button:hover {
+            background: transparent;
+            color: #fec195;
+            box-shadow: 0 0 25px #fec1958c;
+        }
+
+        .button:hover .star-1 {
+            top: -80%;
+            left: -30%;
+            filter: drop-shadow(0 0 10px #fffdef);
+            z-index: 2;
+        }
+
+        .button:hover .star-2 {
+            top: -25%;
+            left: 10%;
+            filter: drop-shadow(0 0 10px #fffdef);
+            z-index: 2;
+        }
+
+        .button:hover .star-3 {
+            top: 55%;
+            left: 25%;
+            filter: drop-shadow(0 0 10px #fffdef);
+            z-index: 2;
+        }
+
+        .button:hover .star-4 {
+            top: 30%;
+            left: 80%;
+            filter: drop-shadow(0 0 10px #fffdef);
+            z-index: 2;
+        }
+
+        .button:hover .star-5 {
+            top: 25%;
+            left: 115%;
+            filter: drop-shadow(0 0 10px #fffdef);
+            z-index: 2;
+        }
+
+        .button:hover .star-6 {
+            top: 5%;
+            left: 60%;
+            filter: drop-shadow(0 0 10px #fffdef);
+            z-index: 2;
+        }
+
+        .fil0 {
+            fill: #fffdef;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Problem Statement</h1>
+        <div class="problem">
+            <%= problem %>
+        </div>
+        <% if (language === 'Java') { %>
+            <div class="note">Note: The class name should be <strong>temp</strong>.</div>
+        <% } %>
+        <form action="/submit" method="post">
+            <input type="hidden" name="language" value="<%= language %>">
+            <div class="editor">
+                <textarea name="code" placeholder="Write your code here..."></textarea>
+            </div>
+            <button class="button" type="submit">
+                Submit
+                <!-- SVG stars for the button -->
+                <svg class="star-1 fil0" viewBox="0 0 24 24">
+                    <polygon points="12 2 15 8 22 9 17 14 18 21 12 17 6 21 7 14 2 9 9 8" />
+                </svg>
+                <svg class="star-2 fil0" viewBox="0 0 24 24">
+                    <polygon points="12 2 15 8 22 9 17 14 18 21 12 17 6 21 7 14 2 9 9 8" />
+                </svg>
+                <svg class="star-3 fil0" viewBox="0 0 24 24">
+                    <polygon points="12 2 15 8 22 9 17 14 18 21 12 17 6 21 7 14 2 9 9 8" />
+                </svg>
+                <svg class="star-4 fil0" viewBox="0 0 24 24">
+                    <polygon points="12 2 15 8 22 9 17 14 18 21 12 17 6 21 7 14 2 9 9 8" />
+                </svg>
+                <svg class="star-5 fil0" viewBox="0 0 24 24">
+                    <polygon points="12 2 15 8 22 9 17 14 18 21 12 17 6 21 7 14 2 9 9 8" />
+                </svg>
+                <svg class="star-6 fil0" viewBox="0 0 24 24">
+                    <polygon points="12 2 15 8 22 9 17 14 18 21 12 17 6 21 7 14 2 9 9 8" />
+                </svg>
+            </button>
+        </form>
+    </div>
+</body>
+</html>

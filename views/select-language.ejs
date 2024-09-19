@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Programming Language</title>
+    <style>
+       body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background: url('img/bg-lang.png') no-repeat center center fixed;
+    background-size: cover;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    text-align: center;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    max-width: 1000px;
+}
+
+.container:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    color: #343a40;
+}
+
+div {
+    display: flex;
+    gap: 20px;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* Updated Button Card CSS */
+.button-card {
+    width: 190px;
+    height: 254px;
+    background: rgb(46, 44, 44);
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: all 300ms;
+    cursor: pointer;
+}
+
+.button-card:hover {
+    opacity: 0.8;
+    transform: scale(1.10);
+}
+
+.button-card img {
+    width: 80px; /* Adjust the icon size */
+    height: 80px;
+    z-index: 1;
+}
+
+.button-card .content {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+    .button-card {
+        width: 150px;
+        height: 150px;
+    }
+
+    .button-card img {
+        width: 60px; /* Adjusted icon size for smaller screens */
+        height: 60px;
+    }
+
+    .button-card .content {
+        font-size: 1.2rem;
+    }
+
+    h1 {
+        font-size: 2rem;
+        margin-bottom: 20px;
+    }
+
+    div {
+        gap: 15px;
+    }
+}
+</style>
+</head>
+<body>
+    <div class="container">
+        <h1>Select a Programming Language</h1>
+        <div>
+            <a href="/compiler/c">
+                <div class="button-card">
+                    <img src="img/c-.png" alt="C Icon">
+                    <div class="content">C</div>
+                </div>
+            </a>
+            <a href="/compiler/python">
+                <div class="button-card">
+                    <img src="img/python.png" alt="Python Icon">
+                    <div class="content">Python</div>
+                </div>
+            </a>
+            <a href="/compiler/java">
+                <div class="button-card">
+                    <img src="img/java.png" alt="Java Icon">
+                    <div class="content">Java</div>
+                </div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

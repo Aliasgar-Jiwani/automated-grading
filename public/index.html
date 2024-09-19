@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Sign Up / Sign In</title>
+</head>
+<body>
+    <h1 class="title">Automated Coding Assignment Grading</h1>
+    <br><br><br>
+    <div class="cont">
+        <div class="form sign-in">
+            <h2>Welcome</h2>
+            <label>
+                <span>Name</span>
+                <input type="text" id="signin-name" />
+            </label>
+            <label>
+                <span>Password</span>
+                <input type="password" id="signin-password" />
+            </label>
+            
+            <button type="button" class="submit" onclick="signIn()">Sign In</button>
+        </div>
+        <div class="sub-cont">
+            <div class="img">
+                <div class="img__text m--up">
+                    <h3>Don't have an account? Please Sign up!</h3>
+                </div>
+                <div class="img__text m--in">
+                    <h3>If you already have an account, just sign in.</h3>
+                </div>
+                <div class="img__btn">
+                    <span class="m--up">Sign Up</span>
+                    <span class="m--in">Sign In</span>
+                </div>
+            </div>
+            <div class="form sign-up">
+                <h2>Create your Account</h2>
+                <label>
+                    <span>Name</span>
+                    <input type="text" id="signup-name" />
+                </label>
+                <label>
+                    <span>Branch</span>
+                    <input type="text" id="signup-branch" />
+                </label>
+                <label>
+                    <span>Password</span>
+                    <input type="password" id="signup-password" />
+                </label>
+                <label>
+                    <span>Year</span>
+                    <input type="number" id="signup-year" />
+                </label>
+                <label>
+                    <span>College</span>
+                    <input type="text" id="signup-college" />
+                </label>
+                <button type="button" class="submit" onclick="signUp()">Sign Up</button>
+            </div>
+        </div>
+    </div>
+    <script src="js/script.js"></script>
+    <script>
+        document.querySelector('.img__btn').addEventListener('click', function() {
+            document.querySelector('.cont').classList.toggle('s--signup');
+        });
+
+        function signUp() {
+            const name = document.getElementById('signup-name').value;
+            const branch = document.getElementById('signup-branch').value;
+            const password = document.getElementById('signup-password').value;
+            const year = document.getElementById('signup-year').value;
+            const college = document.getElementById('signup-college').value;
+
+            const data = {
+                name,
+                branch,
+                password,
+                year,
+                college
+            };
+
+            fetch('/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = '/select-language'; // Redirect to select-language.ejs
+                } else {
+                    return response.text().then(text => alert('Error: ' + text));
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+
+        function signIn() {
+            const name = document.getElementById('signin-name').value;
+            const password = document.getElementById('signin-password').value;
+
+            const data = {
+                name,
+                password
+            };
+
+            fetch('/signin', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = '/select-language'; // Redirect to select-language.ejs
+                } else {
+                    return response.text().then(text => alert('Error: ' + text));
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>
