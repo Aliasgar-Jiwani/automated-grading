@@ -54,5 +54,26 @@
     "password": "",
     "year": "",
     "college": ""
+  },
+  {
+    "name": "Nikita Mishra",
+    "branch": "MCA",
+    "password": "741852963",
+    "year": "2025",
+    "college": "RBU"
+  },
+  {
+    "name": "Nikita",
+    "branch": "MCA",
+    "password": "1234",
+    "year": "2025",
+    "college": "RBU"
+  },
+  {
+    "name": "",
+    "branch": "",
+    "password": "",
+    "year": "",
+    "college": ""
   }
 ]

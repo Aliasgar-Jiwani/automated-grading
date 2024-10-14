@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const fs = require('fs');
+const session = require('express-session'); // Added session support
 const { exec } = require('child_process');
 
 const app = express();
@@ -26,6 +27,13 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public'))); // Serve static files
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json()); // To parse JSON bodies
+
+// Session setup
+app.use(session({
+    secret: 'your_secret_key', // Replace with a strong secret in production
+    resave: false,
+    saveUninitialized: true,
+}));
 
 // Serve index.ejs
 app.get('/', (req, res) => {
@@ -56,6 +64,9 @@ app.post('/signup', (req, res) => {
                 return res.status(500).send('Error saving user data.');
             }
 
+            // Store the username in the session immediately after signup
+            req.session.username = name;
+
             res.redirect('/select-language'); // Redirect to select-language.ejs
         });
     });
@@ -76,6 +87,8 @@ app.post('/signin', (req, res) => {
         const user = users.find(user => user.name === name && user.password === password);
 
         if (user) {
+            // Store the username in the session after successful sign-in
+            req.session.username = name;
             res.redirect('/select-language'); // Redirect to select-language.ejs
         } else {
             res.status(401).send('Invalid credentials');
@@ -85,13 +98,47 @@ app.post('/signin', (req, res) => {
 
 // Serve select-language.ejs
 app.get('/select-language', (req, res) => {
-    res.render('select-language'); // Ensure this file exists in views
+    // Check if the user is signed in by checking session data
+    const username = req.session.username;
+
+    if (!username) {
+        return res.redirect('/'); // Redirect to homepage if not signed in
+    }
+
+    res.render('select-language', { username }); // Pass the username to the template
 });
 
 // Serve compiler page
 app.get('/compiler/:language', (req, res) => {
     const { language } = req.params;
-    
+    const username = req.session.username;
+
+    // Redirect to home if not logged in
+    if (!username) {
+        return res.redirect('/');
+    }
+
+    // Read user data from the JSON file
+    fs.readFile(usersFilePath, 'utf8', (err, data) => {
+        if (err) {
+            console.error('Error reading user data:', err);
+            return res.status(500).send('Error reading user data.');
+        }
+
+        let currentUser;
+        try {
+            const users = JSON.parse(data);
+            currentUser = users.find(user => user.name === username);
+            
+            if (!currentUser) {
+                console.error('User not found:', username);
+                return res.status(404).send('User not found.');
+            }
+        } catch (parseError) {
+            console.error('Error parsing user data:', parseError);
+            return res.status(500).send('Error parsing user data.');
+        }
+
     const problems = {
         'c': [
             'Write a C program to reverse a string.',
@@ -133,10 +180,11 @@ app.get('/compiler/:language', (req, res) => {
 
     const problemList = problems[language];
     const randomProblem = problemList[Math.floor(Math.random() * problemList.length)];
-    const note = language === 'java' ? 'Note: The class name should be "temp".' : '';
 
-    res.render('compiler', { language, problem: randomProblem, note });
+    res.render('compiler', { language, problem: randomProblem, problems: problemList,user: currentUser });
 });
+});
+
 
 // Handle code submission with grading
 app.post('/submit', (req, res) => {
@@ -175,7 +223,7 @@ app.post('/submit', (req, res) => {
             let command;
             switch (language) {
                 case 'c':
-                    command = `gcc -o temp "${filePath}" && temp`;  // Ensure output file is temp.exe
+                    command = `gcc -o temp "${filePath}" && ./temp`; // Ensure the output file is executed
                     break;
                 case 'python':
                     command = `python "${filePath}"`;
@@ -203,10 +251,8 @@ app.post('/submit', (req, res) => {
                     grade = 'A';
                 } else if (score >= 70) {
                     grade = 'B';
-                } else if (score >= 50) {
-                    grade = 'C';
                 } else {
-                    grade = 'Fail';
+                    grade = 'C';
                 }
 
                 // Send the output along with the grade
@@ -230,53 +276,46 @@ app.post('/submit', (req, res) => {
             background-color: #222;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            max-width: 800px;
-            width: 100%;
-            text-align: left;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+        }
+        h1 {
+            color: #f0ad4e;
         }
         pre {
-            background: #f4f4f4;
-            padding: 15px;
+            text-align: left;
+            background-color: #333;
+            padding: 10px;
             border-radius: 4px;
-            border: 1px solid #ddd;
             overflow-x: auto;
-            font-family: monospace;
-            color: #333;
-            margin-bottom: 20px;
-            word-wrap: break-word;
-        }
-        p {
-            font-size: 18px;
-            margin: 10px 0;
         }
         .score {
-            font-weight: bold;
-            color: #fff;
+            font-size: 24px;
+            color: #5bc0de;
         }
         .grade {
-            font-size: 16px;
-            color: ${grade === 'Fail' ? '#d9534f' : '#5bc0de'};
+            font-size: 28px;
+            color: #d9534f;
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <h1>Submission Result</h1>
         <pre>${stdout}</pre>
-        <p class="score">Score: ${score}%</p>
+        <p class="score">Score: ${score}</p>
         <p class="grade">Grade: ${grade}</p>
+        <a href="/select-language" style="text-decoration: none; color: #5bc0de;">Go Back to Language Selection</a>
     </div>
 </body>
 </html>
-
                 `);
             });
         });
     });
 });
 
-
 // Start the server
-app.listen(3000, () => {
-    console.log('Server started on http://localhost:3000');
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
 });
